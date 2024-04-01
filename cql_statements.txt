@@ -1,0 +1,81 @@
+[pos="NNS" & word="ba|bei"]{1,2}[]{0,10}[word="gei"]
+A:[] "and" B:[] "again" :: A = B
+([lemma="big"][lemma="dog"]) |[lemma="wolf"]
+<s/> CONTAINING [word="computer"] [word="hardware"]
+<s/> CONTAINING [word="ba"] & [word="bei"]
+[word="I"][word!="not"]{0,3} WITHIN <s/>
+[word="rather"][]{0,10}[word="than"]
+1:[word="ability|big"] []* 2:[word="ability|big"] :: 1!=2 
+[word="was"][]{0,10}[word="given"]
+[word="suffer"][]{3}[word="loss"]
+[word="ba|bei"][]{0,10}[word="gei"]
+[word="would"][word="rather"][]*[word="also"][word!="no|not"]
+[tag="A*"][word="comes"][word="and"][tag="A*"][word="goes"] WITHIN <doc author="Mr.Lao"/> 
+[word="so"] WITHIN <doc author="Lao She"/> 
+[word="murderers"]
+[lemma="murderer"]
+[word="murderers"]
+[pos="NNS" & word="murders"]
+[pos="NNS" & word="murders"]
+[pos="NNS" | word="murders"]
+[pos="NNS" & word!="murders"]
+[pos="V.*"]
+[word="Mr\."]
+[word="(?-i)crying"]
+[lemma="anti.*"]
+[lemma=".*ism"]
+[lemma="labou?r"]
+[lemma="cas{0,2}a"]
+[lemma="speciali(s|z)e"]
+[lemma="mother"] []{0,5} [lemma="cry"]
+[word="an" | word="the" ] [pos="JJ"]+ [lemma="Jew"]
+[word="an" | word="the" ] ([pos="JJ"] | [pos="VBN"]) [lemma="Jew"]
+A:[] "by" B:[] :: A = B
+[lemma="happy"][lemma!="dog|cat"]
+[lemma="happy"]
+[lemma="happy | happily"]
+[lemma!="we|people|them"][lemma="happy"]
+[lemma="because"][]{30}[lemma="so"]
+[lemma="happy"][lemma="dog|cat"][]{10,20}[lemma="say"]
+[lemma="because"][]{30}[lemma="so"]
+[lemma="teapot"]
+[lemma="refill"][lemma="the"][lemma="teapot"]
+[word="went"]
+[lemma="go"]
+[tag="NP"]
+[lemma="confus.*"]
+[lemma=".*ious"]
+[lemma="b.g"]
+[lemma="refill"] [ ][lemma="kettle"]
+[lemma="have"] [ ]{2,4}
+[lemma="drink"] [tag="J.*"]{2}[lemma="water"][lemma="opinion"]
+[lemma="drive"] [lc="my"] [lc="own"]?[lemma="car"]
+[lemma="drive"][lc="my"][lc="own"]{0,1}[lemma="car"]
+[word="."]
+"[word=="".""]"
+[word="\."]
+[lemma="test" & tag="N.*" ]
+[word="test" & tag!="V.*"] [word="test"& !tag="V.*"]
+[ word="round" & ( tag="N.*" |tag="V.*" ) ]
+[lemma="dog"]|[lemma="wolf"] 
+[tag="N.*"] | [lemma="the"]
+<doc style="informal">[lemma="Rebecca"]
+<doc id="2011"> [tag="N.*"] []{0,5} [tag="V.*"]
+[tag="V.*"] WITHIN <doc style="informal">
+[lemma="dog"] []{0,5} [lemma="runs"]
+[tag="N.*"] WITHIN [tag="VB.*"] []{0,5} [tag="VB.*"]
+[tag="N.*"] WITHIN [tag="VB.*"] []{0,5} [tag="VB.*"] WITHIN <s>
+<p/> CONTAINING [word="[A-Z]{3,}"]
+<p/> CONTAINING [word="[A-Z]{3,}"]
+[tag="J.*"]{1,5} [tag="N.*"] CONTAINING [word="international"]
+[tag="N.*"] !WITHIN < nphr/>
+<s/> !CONTAINING [word="[A-Z][A-Za-z]*"]
+[lemma="cat"] []{0,3} [pos="VB"]
+[pos="NN"][]{1,2}[pos="VB"][]{1,2}[pos="JJ"]
+[pos="JJ"][]{0,2}[pos="NN"][]{1,3}[pos="IN"][pos="DT"][]{0,1}[pos="NN"][]{0,2}
+[pos="RB"][]{0,1}[pos="VB"][]{1,3}[pos="IN"][]{0,1}[pos="DT"][]{0,1}[pos="NN"][]{1,2}
+[pos="NN"][]{1,3}[pos="VBG"][]{0,2}[pos="CC"][]{0,1}[pos="VB"][]{1,2}
+A:[] "and" B:[] :: word = "again" A = B
+["big"] ["man"]
+<s/> CONTAINING "baker"
+<s> "no"

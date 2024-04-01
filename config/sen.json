@@ -1,0 +1,27 @@
+{
+	"table_name": "sen",
+	"record_format": "jsonl",
+
+  "contect": {
+    "doc_id": "doc_id",
+    "pass_id": "pass_id",
+    "sen_id": "sen_id",
+    "content": "content"
+  },
+
+  "index": {
+    "kv": [
+    
+    ],
+
+    "number": [
+      "doc_id",
+      "pass_id",
+      "sen_id"
+    ],
+
+    "bm25": [
+      "content"
+    ]
+  }
+}

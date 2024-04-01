@@ -1,0 +1,2 @@
+SELECT TOP 10 doc_id, pass_id, sen_id, content FROM sen WHERE content LIKE '北京 天气';
+SELECT TOP 10 doc_id, pass_id, sen_id, content FROM sen WHERE content LIKE '中国 台湾';

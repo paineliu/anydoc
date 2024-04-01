@@ -1,0 +1,27 @@
+{
+	"table_name": "doc",
+	"record_format": "jsonl",
+
+  "contect": {
+    "doc_id": "doc_id",
+    "filetype": "filetype",
+    "filename": "filename",
+    "pathname": "pathname",
+    "modify_time": "modify_time",
+    "filesize": "filesize",
+    "fullname": "fullname"
+  },
+
+  "index": {
+    "kv": [
+      "filename"
+    ],
+    "number": [
+      "doc_id",
+      "filesize"
+    ],
+
+    "date": [
+      "modify_time"
+    ]
+  }}
