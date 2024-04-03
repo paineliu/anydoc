@@ -6,6 +6,7 @@
 %%
 
 \documentclass[11pt]{article}
+\usepackage{ctex}
 \usepackage[utf8]{inputenc}
 \usepackage[hyperref]{ccl2024-zh}
 \usepackage{url}
@@ -187,46 +188,34 @@ CQL具有良好的人类可读性，但如果使用CQL实现语料库的检索�
 
 采用两阶段检索策略，第一阶段搜索语料库，仅作检索片段的匹配，忽略检索片段的位置和距离约束，找到所有可能的匹配文档， 第二阶段对每个文档进行位置和距离约束匹配。筛选出满足约束的文档作为候选。
 
-依次遍历检索式中的所有检索单元，将所有检索单元的结果做布尔运算，得到了待选列表。然后对待选列表中每一项，与检索单元进行匹配，依次找出所有可能的匹配节点，通过动态规划算法验证这一项符合检索式要求，然后将这一项加入到候选列表中。
+\subsection{检索单元查询}
 
-\begin{figure}[h]
-	\centering
-	\includegraphics[width=0.5\textwidth]{dy.jpg}
-	\caption{搜索树}
-	\label{fig:example}
-\end{figure}
-
-\subsection{简单语句查询}
-
-未完成
-
-简单检索对应语料库的一次查询，根据用户输入的标记，以及指定的检索范围进项倒排索引的匹配，找到复合检索条件的文档ID。
-
-\subsection{复合语句查询}
-
-
-未完成
-
-通过布尔运算组合简单查询，
-
-连续词语检索
-
-非连续词语检索
+简单检索式可以在直接对应语料库的一次查询动作，根据用户输入的标记，以及指定的检索范围进行倒排索引的匹配，找到复合检索条件的文档ID。
+复合检索式经过语法解析后，生成由简单检索式和逻辑运算符组成的二叉检索树，通过遍历检索树并对每个简单检索式的检索结果按照逻辑运算符进行逻辑运算，即可返回复合检索式的检索结果。
 
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=0.5\textwidth]{node-tree.jpg}
 	\caption{搜索树}
-	\label{fig:example}
 \end{figure}
+
+
+\subsection{复合语句查询}
+
+依次遍历检索语句中的所有检索单元，将所有检索单元的结果做布尔运算，得到了待选列表。然后对待选列表中每一项，与检索单元进行匹配，依次找出所有可能的匹配节点，通过动态规划算法验证这一项符合检索式要求，然后将这一项加入到候选列表中。
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.5\textwidth]{dy.jpg}
+	\caption{搜索树}
+\end{figure}
+非连续词语检索
 
 \subsection{全局匹配条件}
 
-未完成
+语言成分边界标记其一般形式为：WITHIN x 或者 x CONTAINING ，x是语言成为标记，可以是：\textless s \textgreater 句子边界、\textless u \textgreater 话轮边界等，起到限定检索范围，防止跨语言边界检索的目的。
 
-语言成分边界标记其一般形式为：WITHIN x 或者 x CONTAINING ，x是语言成为标记，可以是：<s> 句子边界、<u>话轮边界等，起到限定检索范围，防止跨语言边界检索的目的。
-
-本文定义了<s>、<p>、 <t>三种检索边界标记，可以指定检索范围是句子，或者是段落、或者是文档。
+本文定义了\textless s \textgreater、\textless p \textgreater 、\textless t \textgreater 三种检索边界标记，可以指定检索范围是句子，或者是段落、或者是文档。
 在实现式，通过建立句子、和段落级别的倒排索引，实现对检索边界标记的支持，默认的检索范围为段落。
 
 
