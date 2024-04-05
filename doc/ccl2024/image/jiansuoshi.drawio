@@ -1,0 +1,61 @@
+<mxfile host="Electron" modified="2024-04-05T12:07:53.276Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/22.1.11 Chrome/114.0.5735.289 Electron/25.9.8 Safari/537.36" etag="RttAJjK33ERjmAAW0Muk" version="22.1.11" type="device">
+  <diagram name="Page-1" id="_7PsS7ILoqGPjQ69Y5fn">
+    <mxGraphModel dx="1004" dy="744" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="_yFCdpVOucRhx8dW70CK-7" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="90" y="290" width="540" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="_yFCdpVOucRhx8dW70CK-1" value="[word=&quot;把&quot; | word=&quot;被&quot;]" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="210" y="320" width="140" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="_yFCdpVOucRhx8dW70CK-2" value="[]{2，4}" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="190" y="500" width="70" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="_yFCdpVOucRhx8dW70CK-3" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="90" y="440" width="540" height="180" as="geometry" />
+        </mxCell>
+        <mxCell id="_yFCdpVOucRhx8dW70CK-4" value="[word=&#39;给&#39;]" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="420" y="320" width="70" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="_yFCdpVOucRhx8dW70CK-5" value="within &amp;lt;s&amp;gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="500" y="320" width="80" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="_yFCdpVOucRhx8dW70CK-6" value="" style="shape=flexArrow;endArrow=classic;html=1;rounded=0;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="380" y="400" as="sourcePoint" />
+            <mxPoint x="380" y="430" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="_yFCdpVOucRhx8dW70CK-10" value="[word=&quot;把&quot; | word=&quot;被&quot;]" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="200" y="460" width="140" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="_yFCdpVOucRhx8dW70CK-11" value="[word=&#39;给&#39;]" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="350" y="460" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="_yFCdpVOucRhx8dW70CK-13" value="检索单元：" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="110" y="465" width="70" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="_yFCdpVOucRhx8dW70CK-14" value="约束条件：" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="110" y="510" width="70" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="_yFCdpVOucRhx8dW70CK-16" value="检索范围：" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="110" y="550" width="70" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="_yFCdpVOucRhx8dW70CK-18" value="2&amp;lt;=postion(单元2)-postion(单元1）&amp;lt;=4" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="200" y="510" width="270" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="_yFCdpVOucRhx8dW70CK-19" value="[] {2,4}" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="360" y="320" width="55" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="_yFCdpVOucRhx8dW70CK-20" value="&amp;lt;s&amp;gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="200" y="560" width="270" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="_yFCdpVOucRhx8dW70CK-21" value="CQL语句：" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="110" y="325" width="70" height="30" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
