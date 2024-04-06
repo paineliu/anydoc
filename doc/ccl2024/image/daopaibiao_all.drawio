@@ -1,4 +1,4 @@
-<mxfile host="Electron" modified="2024-04-06T13:59:04.972Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/22.1.11 Chrome/114.0.5735.289 Electron/25.9.8 Safari/537.36" etag="Lj0-RTOHraou9BndRSvo" version="22.1.11" type="device">
+<mxfile host="Electron" modified="2024-04-05T11:19:40.061Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/22.1.11 Chrome/114.0.5735.289 Electron/25.9.8 Safari/537.36" etag="Vdx5yuY3fBuxV-O9d09k" version="22.1.11" type="device">
   <diagram id="kgpKYQtTHZ0yAKxKKP6v" name="Page-1">
     <mxGraphModel dx="1004" dy="744" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
@@ -97,6 +97,60 @@
         </mxCell>
         <mxCell id="dLxeThP5IGCeZcF5y2Jn-23" value="华" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fontSize=14;" parent="1" vertex="1">
           <mxGeometry x="263" y="300" width="80" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="dLxeThP5IGCeZcF5y2Jn-51" value="2414" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="355" y="700" width="100" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="dLxeThP5IGCeZcF5y2Jn-53" value="2415" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="355" y="740" width="100" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="dLxeThP5IGCeZcF5y2Jn-54" value="..." style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="355" y="780" width="100" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="dLxeThP5IGCeZcF5y2Jn-55" value="2419" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="355" y="820" width="100" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="dLxeThP5IGCeZcF5y2Jn-56" value="..." style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="355" y="660" width="100" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="dLxeThP5IGCeZcF5y2Jn-58" value="ID" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="355" y="620" width="100" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="dLxeThP5IGCeZcF5y2Jn-59" value="中华文明绵延数千年，有其独特的价值体系。" style="rounded=0;whiteSpace=wrap;html=1;align=left;" parent="1" vertex="1">
+          <mxGeometry x="455" y="700" width="256" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="dLxeThP5IGCeZcF5y2Jn-61" value="中华优秀传统文化已经成为中华民族的基因，植根在中国人内心，潜移默化影响着中国人的思想方式和行为方式。" style="rounded=0;whiteSpace=wrap;html=1;align=left;" parent="1" vertex="1">
+          <mxGeometry x="455" y="740" width="256" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="dLxeThP5IGCeZcF5y2Jn-62" value="..." style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="455" y="780" width="256" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="dLxeThP5IGCeZcF5y2Jn-63" value="我们生而为中国人，最根本的是我们有中国人的独特精神世界，有百姓日用而不觉的价值观。" style="rounded=0;whiteSpace=wrap;html=1;align=left;" parent="1" vertex="1">
+          <mxGeometry x="455" y="820" width="256" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="dLxeThP5IGCeZcF5y2Jn-64" value="..." style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="455" y="660" width="256" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="dLxeThP5IGCeZcF5y2Jn-65" value="TEXT" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="455" y="620" width="256" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="dLxeThP5IGCeZcF5y2Jn-66" value="2420" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="355" y="860" width="100" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="dLxeThP5IGCeZcF5y2Jn-67" value="我们提倡的社会主义核心价值观，就充分体现了对中华优秀传统文化的传承和升华。" style="rounded=0;whiteSpace=wrap;html=1;align=left;" parent="1" vertex="1">
+          <mxGeometry x="455" y="860" width="256" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="dLxeThP5IGCeZcF5y2Jn-68" value="..." style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="355" y="900" width="100" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="dLxeThP5IGCeZcF5y2Jn-69" value="2419" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="355" y="940" width="100" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="dLxeThP5IGCeZcF5y2Jn-70" value="..." style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="455" y="900" width="256" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="dLxeThP5IGCeZcF5y2Jn-71" value="要向全世界讲好中国历史故事。" style="rounded=0;whiteSpace=wrap;html=1;align=left;" parent="1" vertex="1">
+          <mxGeometry x="455" y="940" width="256" height="40" as="geometry" />
         </mxCell>
         <mxCell id="dLxeThP5IGCeZcF5y2Jn-74" value="文档内偏移" style="whiteSpace=wrap;html=1;align=center;fontSize=14;" parent="1" vertex="1">
           <mxGeometry x="565" y="80" width="74" height="40" as="geometry" />
@@ -221,28 +275,28 @@
         <mxCell id="Xe77bk4C7D_hDonBxxjW-14" value="134，137" style="rounded=0;whiteSpace=wrap;html=1;fontSize=14;" parent="1" vertex="1">
           <mxGeometry x="300" y="360" width="77" height="40" as="geometry" />
         </mxCell>
-        <mxCell id="8N_4IgcPzm4mtB6x7_Qe-1" value="..." style="whiteSpace=wrap;html=1;align=center;fontSize=14;" parent="1" vertex="1">
+        <mxCell id="8N_4IgcPzm4mtB6x7_Qe-1" value="..." style="whiteSpace=wrap;html=1;align=center;fontSize=14;" vertex="1" parent="1">
           <mxGeometry x="434" y="120" width="66" height="40" as="geometry" />
         </mxCell>
-        <mxCell id="8N_4IgcPzm4mtB6x7_Qe-2" value="..." style="whiteSpace=wrap;html=1;align=center;fontSize=14;" parent="1" vertex="1">
+        <mxCell id="8N_4IgcPzm4mtB6x7_Qe-2" value="..." style="whiteSpace=wrap;html=1;align=center;fontSize=14;" vertex="1" parent="1">
           <mxGeometry x="565" y="120" width="74" height="40" as="geometry" />
         </mxCell>
-        <mxCell id="8N_4IgcPzm4mtB6x7_Qe-3" value="..." style="whiteSpace=wrap;html=1;align=center;fontSize=14;" parent="1" vertex="1">
+        <mxCell id="8N_4IgcPzm4mtB6x7_Qe-3" value="..." style="whiteSpace=wrap;html=1;align=center;fontSize=14;" vertex="1" parent="1">
           <mxGeometry x="639" y="120" width="148" height="40" as="geometry" />
         </mxCell>
-        <mxCell id="8N_4IgcPzm4mtB6x7_Qe-4" value="..." style="whiteSpace=wrap;html=1;align=center;fontSize=14;" parent="1" vertex="1">
+        <mxCell id="8N_4IgcPzm4mtB6x7_Qe-4" value="..." style="whiteSpace=wrap;html=1;align=center;fontSize=14;" vertex="1" parent="1">
           <mxGeometry x="500" y="120" width="66" height="40" as="geometry" />
         </mxCell>
-        <mxCell id="8N_4IgcPzm4mtB6x7_Qe-5" value="..." style="whiteSpace=wrap;html=1;align=center;fontSize=14;" parent="1" vertex="1">
+        <mxCell id="8N_4IgcPzm4mtB6x7_Qe-5" value="..." style="whiteSpace=wrap;html=1;align=center;fontSize=14;" vertex="1" parent="1">
           <mxGeometry x="434" y="520" width="66" height="40" as="geometry" />
         </mxCell>
-        <mxCell id="8N_4IgcPzm4mtB6x7_Qe-6" value="..." style="whiteSpace=wrap;html=1;align=center;fontSize=14;" parent="1" vertex="1">
+        <mxCell id="8N_4IgcPzm4mtB6x7_Qe-6" value="..." style="whiteSpace=wrap;html=1;align=center;fontSize=14;" vertex="1" parent="1">
           <mxGeometry x="565" y="520" width="74" height="40" as="geometry" />
         </mxCell>
-        <mxCell id="8N_4IgcPzm4mtB6x7_Qe-7" value="..." style="whiteSpace=wrap;html=1;align=center;fontSize=14;" parent="1" vertex="1">
+        <mxCell id="8N_4IgcPzm4mtB6x7_Qe-7" value="..." style="whiteSpace=wrap;html=1;align=center;fontSize=14;" vertex="1" parent="1">
           <mxGeometry x="639" y="520" width="148" height="40" as="geometry" />
         </mxCell>
-        <mxCell id="8N_4IgcPzm4mtB6x7_Qe-8" value="..." style="whiteSpace=wrap;html=1;align=center;fontSize=14;" parent="1" vertex="1">
+        <mxCell id="8N_4IgcPzm4mtB6x7_Qe-8" value="..." style="whiteSpace=wrap;html=1;align=center;fontSize=14;" vertex="1" parent="1">
           <mxGeometry x="500" y="520" width="66" height="40" as="geometry" />
         </mxCell>
       </root>

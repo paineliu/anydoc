@@ -165,4 +165,6 @@ data/
 *.out
 *.synctex.gz
 *.fls
+*.bbl
+*.blg
 *.fdb_latexmk

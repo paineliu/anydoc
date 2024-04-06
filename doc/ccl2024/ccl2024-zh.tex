@@ -10,6 +10,12 @@
 \usepackage[utf8]{inputenc}
 \usepackage[hyperref]{ccl2024-zh}
 \usepackage{url}
+
+%\usepackage{algorithm}
+%\usepackage{algorithmicx}
+%\usepackage{algpseudocode}
+\usepackage[ruled,linesnumbered]{algorithm2e}
+
 \usepackage{latexsym}
 \usepackage{CJKutf8}
 \usepackage{indentfirst}
@@ -45,7 +51,7 @@
 \maketitle
 \begin{abstract}
   
-本文提出了一种面向CQL的语料库检索引擎的高效实现方法。使用ANTLR实现CQL的解析，将CQL语法树转换为语料库检索表达式，采用两阶段检索策略，首先忽略位置和距离约束，执行检索单元的匹配，然后对待选结果进行约束条件的过滤和匹配。通过构建一维bit数组快速合并不同检索单元的检索结果，提高了合并效率。实验结果表明，该检索引擎在《人民日报》图文数据库上表现出高效准确的性能，为语料库检索领域提供了新的解决方案和工程实践经验。
+本文提出了一种面向CQL的高效语料库检索引擎实现方法。首先，利用ANTLR工具对CQL语句进行语法分析，将得到的语法树转换为语料库检索式。其次，在构建语料数据库时，我们采用了优化的倒排索引表，实现了对非词表词语的快速检索。然后，在检索过程中，我们采取了两阶段策略：第一阶段忽略位置和距离约束，进行初步检索，并通过候选标记位方法迅速合并多个检索单元的候选列表；第二阶段则对候选列表应用约束条件进行二次匹配和过滤。最终，生成精确的候选语料列表。实验证明，该检索引擎在《人民日报》图文数据库上展现了高效且准确的性能，为语料库检索领域提供了新的解决方案和工程实践经验。
 
   \keywords{语料库查询语言 \and 语料库检索 \and 倒排索引}
 \end{abstract}
@@ -54,7 +60,8 @@
 \makeenglishtitle
 \begin{englishabstract}
 	
-  This paper proposes an efficient implementation method for a corpus retrieval engine oriented towards CQL. ANTLR is used to parse CQL and convert the CQL syntax tree into corpus retrieval expressions. A two-stage retrieval strategy is adopted, where the matching of retrieval units is first performed while ignoring positional and distance constraints, followed by filtering and matching the constraints on the candidate results. By constructing a one-dimensional bit array, the merging efficiency of different retrieval unit results is improved. Experimental results demonstrate that the retrieval engine exhibits efficient and accurate performance on the "People's Daily" graphic database, providing new solutions and engineering practical experience for the field of corpus retrieval.
+This paper proposes an efficient implementation method for a CQL-oriented corpus retrieval engine. Firstly, the ANTLR tool is utilized to perform syntactic analysis on CQL statements, converting the resulting syntax tree into a corpus retrieval expression. Secondly, when constructing the corpus database, we adopt an optimized inverted index table to enable rapid retrieval of non-lexical words. Then, during the retrieval process, we adopt a two-stage strategy: in the first stage, positional and distance constraints are ignored to perform preliminary retrieval, and the candidate lists of multiple retrieval units are quickly merged using the candidate marking method; in the second stage, constraint conditions are applied to the candidate lists for secondary matching and filtering. Finally, an accurate candidate corpus list is generated. Experiments demonstrate that this retrieval engine exhibits efficient and accurate performance on the People's Daily graphic database, providing a new solution and engineering practical experience for the field of corpus retrieval.
+
   
   \englishkeywords{corpus query language \and corpus retrieval \and  inverted index}
 \end{englishabstract}
@@ -65,11 +72,21 @@
 
 随着计算语言学领域的深入发展，语料库作为自然语言处理研究的基础资源，其重要性日益凸显。语料库检索引擎作为从语料库中获取信息的核心工具，其性能和效率直接影响到研究者的工作效率和成果质量。因此，构建一个高效、灵活的语料库检索引擎对于推动计算语言学研究具有重要意义。
 
-目前，尽管已有一些语料库检索系统，但它们往往存在一些问题，如检索速度慢、支持的语言和语料库类型有限、检索表达式不够灵活等。其中，检索表达式的非通用性是一个尤为突出的问题。不同的语料库系统通常采用不同的检索语法，这导致了用户在使用不同系统时需要学习和适应不同的检索方式，增加了使用难度和成本。
+目前，尽管已有一些语料库检索系统，例如：北京大学CCL现代汉语语料库、北京语言大学BCC语料库等中文语料库，拥有庞大的语料资源，提供了丰富的功能，但它们的检索表达式却互不兼容。这意味着用户在使用这些语料库时，需要分别学习和掌握各自的检索语法和规则。检索表达式的非通用性是一个突出问题，语料库检索的复杂性和多样性主要体现在其检索表达式的非标准化上。不同的语料库系统通常采用不同的检索语法，这导致了用户在使用不同系统时需要学习和适应不同的检索方式，增加了使用难度和成本。
 
-为了解决上述问题，我们提出了一种面向CQL（Corpus Query Language）的语料库检索引擎的高效实现方法。CQL作为一种通用的语料库查询语言，旨在提供一种统一的、易于学习和使用的检索语法，以简化用户在不同语料库系统之间的切换过程。通过实现一个高效的CQL检索引擎，我们可以为用户提供更加便捷、高效的语料库检索体验。
 
-在本研究中，我们将重点探讨如何优化CQL检索引擎的性能和效率。我们将从多个方面入手，包括检索算法的优化、索引结构的改进、以及并行化和分布式处理技术的应用等。我们希望通过这些努力，为用户提供一个更加快速、准确、灵活的语料库检索工具，从而推动计算语言学研究的进一步发展。
+%CQL作为一种通用的语料库查询语言，旨在提供一种统一的、易于学习和使用的检索语法，以简化用户在不同语料库系统之间的切换过程。通过实现一个高效的CQL检索引擎，我们可以为用户提供更加便捷、高效的语料库检索体验。
+
+在本研究中，我们将重点探讨语料库检索引擎的实现，探讨如何使用更为通用的语料库检索语言进行语料库查询，以及如何建立语料数据库，优化索引结构的改进检索算法等。我们希望通过这些努力，为用户提供一个更加快速、准确、灵活的语料库检索工具，从而推动计算语言学研究的进一步发展。
+%
+%在计算语言学的研究领域中，语料库检索工具扮演着至关重要的角色。对于自然语言工作者而言，如何高效、准确地从庞大的语料库中检索到所需信息，是他们日常工作中必须面对的挑战。然而，目前语料库检索表达式的非通用性成为了制约其广泛应用的一大瓶颈。
+%
+%例如，
+%
+%CQL（Corpus Query Language）作为一种语法简单、易于掌握的语料库检索语言，得到了广泛的应用。然而，目前支持CQL的中文语料库还相对较少，这使得CQL的应用受到了一定程度的限制。
+%
+%
+%设计一款能够支持CQL语言的语料库检索引擎，对于减轻用户学习负担、提高检索效率和质量具有重要意义。
 
 %
 % The following footnote without marker is needed for the camera-ready
@@ -91,21 +108,11 @@
 \section{背景}
 \label{backgound}
 
-在计算语言学的研究领域中，语料库检索工具扮演着至关重要的角色。对于自然语言工作者而言，如何高效、准确地从庞大的语料库中检索到所需信息，是他们日常工作中必须面对的挑战。然而，目前语料库检索表达式的非通用性成为了制约其广泛应用的一大瓶颈。
-
-语料库检索的复杂性和多样性主要体现在其检索表达式的非标准化上。例如，北京大学现代汉语语料库、北京语言大学BCC语料库等中文语料库，虽然各自拥有庞大的语料资源，但它们的检索表达式却互不兼容。这意味着用户在使用这些语料库时，需要分别学习和掌握各自的检索语法和规则，这无疑增加了学习成本和使用难度。
-
-CQL（Corpus Query Language）作为一种语法简单、易于掌握的语料库检索语言，得到了广泛的应用。然而，目前支持CQL的中文语料库还相对较少，这使得CQL的应用受到了一定程度的限制。
-
-%随着人工智能技术的快速发展，大语言模型为语料库检索带来了新的机遇。大语言模型通过深度学习和自然语言处理技术，能够实现对语义向量的理解和自然语言的处理，从而改进检索效率和质量。
-
-设计一款能够支持CQL语言的语料库检索引擎，对于减轻用户学习负担、提高检索效率和质量具有重要意义。
-
 \subsection{CQL语言}
 
-随着信息技术的飞速发展，语料库作为语言学研究的重要工具，其查询语言也经历了不断的演变与完善。其中，语料库查询语言（Corpus Query Language，简称CQL）作为从CQP（Corpus Query Processor）发展而来的一系列语言，已经逐渐成为语料库检索领域的主流语言。CQLF(Corpus Query Lingua Franca)已经成为国际标准ISO 24631-1（ISO 2018），在国际范围内的广泛认可与应用。
+随着信息技术的飞速发展，语料库作为语言学研究的重要工具，其查询语言也经历了不断的演变与完善。其中，语料库查询语言（Corpus Query Language，简称CQL）作为从CQP（Corpus Query Processor）发展而来的一系列语言，已经逐渐成为语料库检索领域的主流语言。CQLF(Corpus Query Lingua Franca)已经成为国际标准ISO 24631-1 \cite{banski-etal-2016-corpus}，在国际范围内的广泛认可与应用。
 
-目前，众多语料库检索工具均采用了CQL作为检索语言，如CQPweb、Sketch Engine、BlackLab等。这些工具使用CQL为用户提供高效、便捷的语料库检索体验。具体来说，CQL语言包括以下关键元素：
+目前，众多语料库检索工具均采用了CQL作为检索语言，如CQPweb\cite{hardie2012cqpweb}、Sketch Engine\cite{sketchengine1}、BlackLab\cite{blacklab}等。这些工具使用CQL为用户提供高效、便捷的语料库检索体验。具体来说，CQL语言包括以下关键元素：
 
 （1）查询语句：检索单元是由基本检索式以及逻辑运算符构成的，用于指定检索的标签以及具体的检索值。其中检索标签是在语料库设计时预先定义的，例如：word、lemmon、pos等。检索值即具体的查询内容，可以是词语、词性等。此外，CQL还支持使用正则表达式进行词语的匹配。简单查询可以通过布尔运算符进行连接，组成复合查询。一条查询语句可以包含多个检索单元，在语料匹配时，检索系统会对检索内容从左到右进行检索单元的匹配，每个检索单元还可以通过\{m，n\}的形式指定其重复次数。
 
@@ -167,7 +174,7 @@ Lucene是由Apache软件基金会提供的一套用于全文检索开源库，�
 
 CQL具有良好的人类可读性，但如果使用CQL实现语料库的检索，还需要将其转换为计算机可执行的结构化查询语句。
 实现语法解析可以采用语法分析工具，ANTLR是一款强大的开源语法分析工具，使得开发一门新语言的工作转变为使用扩展巴斯科范式（Extended Backus–Naur Form，简称 EBNF）来描述语法。极大的简化了语言的解析工作。CQL符合EBNF定义，因此可以将CQL转换为EBNF语法文件。通过ANTLR工具，可以为CQL语法文件，生成相应的词法/语法分析器。
-在\footnote[1]{https://github.com/exquery/corpusql-parser}提供的CQL语言描述文件的基础上，使用ANTLR工具生成了Python3版本的语法解析器。用户可以利用语法解析器将输入的CQL文本转换成语法树，语法解析器提供了Listener接口，可以通过该接口遍历语法树。
+在\footnote[1]{https://github.com/exquery/corpusql-parser}提供的CQL语言描述文件的基础上，使用ANTLR工具生成了CQL的语法解析器。用户可以利用语法解析器将输入的CQL文本转换成语法树，语法解析器提供了Listener接口，可以通过该接口遍历语法树。
 以“[word='把' \textbar word='被']”为例，生成的语法树结构如图\ref{fig:yufashu}所示：
 
 \begin{figure}[!h]
@@ -194,10 +201,9 @@ CQL具有良好的人类可读性，但如果使用CQL实现语料库的检索�
 	\label{fig:daopaibiao}
 \end{figure}
 
-\subsection{语料库查询表达式转换}
+\subsection{语料库检索表达式}
 
-在语料库查询时，需要将CQL转换为可执行的语料库查询表达式，该表达式包含三项内容：检索单元、约束条件、检索范围。检索单元是具体可执行的检索表达式，对应着CQL中的查询语句。约束条件是由查询语句中的无约束项以及限定标签转换出来的检索单元之间的约束条件。检索范围是CQL中的范围约束指定的检索范围约束条件。
-
+在语料库查询时，需要将CQL转换为可执行的语料库检索表达式，该表达式包含三项内容：检索单元、约束条件、检索范围。检索单元是具体可执行的检索表达式，对应着CQL中的查询语句。约束条件是由查询语句中的无约束项以及限定标签转换出来的检索单元之间的约束条件。检索范围是CQL中的范围约束指定的检索范围约束条件。
 
 \begin{figure}[h]
 	\centering
@@ -208,15 +214,54 @@ CQL具有良好的人类可读性，但如果使用CQL实现语料库的检索�
 
 通过遍历CQL语法树，找到对应的节点，将节点元素转换为语料库查询表达式的元素，就可以调用语料库检索方法进行具体的语料查询了。
 
+\subsection{二阶段候选查询}
 
-\subsection{语料库查询速度优化}
-
-
-语料库检索除了要对检索单元进行匹配外，还需要检查每个检索单元在语料中的位置是否满足位置和距离的约束，当存在多段检索单元时，如果能先过滤出满足检索单元匹配条件的句子之后，在进行约束条件的过滤和匹配，能够有效的提高检索效率。因此本文采用两阶段检索策略，第一阶段检索单元的匹配，搜索语料库执行检索单元的检索表达式，忽略检索单元的位置和距离约束，找到所有可能的匹配语料， 第二阶段对上一阶段检索出来的语料进行位置和距离约束匹配，筛选出满足约束的语料作为候选。
+语料库检索除了要对检索单元进行匹配外，还需要检查每个检索单元在语料中的位置是否满足位置和距离的约束，当存在多段检索单元时，如果能先过滤出满足检索单元匹配条件的句子之后，在进行约束条件的过滤和匹配，能够有效的提高检索效率。因此本文采用两阶段检索策略，第一阶段检索单元的匹配，搜索语料库执行检索单元的检索表达式，忽略检索单元的位置和距离约束，找到所有可能的匹配语料。第二阶段对上一阶段检索出来的语料进行位置和距离约束匹配，筛选出满足约束的语料作为候选。
 
 第一阶段，检索单元匹配，首先根据检索范围选择相应的索引表，然后一次遍历执行每个检索单元中的检索表达式，如果检索单元是不包含逻辑运算的简单检索式可以在直接对应语料库的一次查询动作，根据标记类型，查找对应的倒排索引表，返回匹配的语料。包含逻辑运算的复合检索式，经过语法解析后，生成由简单检索式和逻辑运算符组成的检索树，通过遍历检索树并对每个简单检索式的检索结果按照逻辑运算符进行逻辑运算，即可返回复合检索式的检索结果。
 
-合并不同检索单元，以及包含逻辑运算的检索单元内部的简单检索式的检索结果，是一个耗时操作，传统的倒排索引表存储的是排序好的文档ID列表，通过跳表操作实现两个列表的快速合并，但在我们设计的检索方法中，词语并不是固定的索引单位，并且词语对应的文档ID也不是有序的，无法采用合并有序列表的方式合并两个简单查询的结果。因此在我们的检索方法中，构建了一个与文档数量相同的一维bit数组，每一位标记着对应的文档是否匹配，合并两个检索表达式的之后，只需要按照逻辑运算是或还是与，就可以快速完成运算，效率上优于有序表的合并策略。
+合并不同检索单元，以及包含逻辑运算的检索单元内部的简单检索式的检索结果，是一个耗时操作，传统的倒排索引表存储的是排序好的文档ID列表，通过跳表操作实现两个列表的快速合并，但在我们设计的检索方法中，词语并不是固定的索引单位，并且词语对应的文档ID也不是有序的，无法采用合并有序列表的方式合并两个简单查询的结果。因此在我们的检索方法中，构建了一个与文档数量相同的一维bit数组，每一位标记着对应的文档是否匹配，合并两个检索表达式的之后，只需要执行检索式的逻辑运算，就可以快速完成合并操作。 
+具体流程如算法~\ref{alg:getmatchdocflags}所示。
+
+\begin{algorithm}[H]
+	\caption{Get the query matching document ID flags}
+	\label{alg:getmatchdocflags}
+	\SetKwInput{KwInput}{$querys = \left\{ q_1, q_2, \ldots, q_n \right\}$}
+	\SetKwInput{KwOutput}{$document\ id\ list$}
+	\DontPrintSemicolon
+	
+	\KwInput{Input}
+	\KwOutput{Output}
+		
+	% Set Function Names
+	\SetKwFunction{FSum}{GetMatchDocFlags}
+	
+	% Write Function with word ``Def''
+	\SetKwProg{Fn}{Def}{:}{}
+	\Fn{\FSum{$query$}}{
+		op = query.op\;
+		\uIf {op = 'AND'} {
+			flags1 $\leftarrow$ GetMatchDocFlags(query.first)\;
+			flags2 $\leftarrow$ GetMatchDocFlags(query.second)\;
+			flags $\leftarrow$ flag1 \& flags2\;
+		}\uElseIf {op = 'OR'} {
+			flags1 $\leftarrow$ GetMatchDocFlags(query.first)\;
+			flags2 $\leftarrow$ GetMatchDocFlags(query.second)\;
+			flags $\leftarrow$ flag1 \textbar \ flags2\;
+		} \uElse {
+			flags $\leftarrow$ SearchCorpus(query.data)\;
+		}
+		
+		\KwRet flags\;
+	}
+	\;
+flags $\leftarrow$ DefaultMatchFlags()\;
+\ForEach{$q_i \in querys$}{
+	flags $\leftarrow$ flags \& GetMatchDocFlags($q_i$)
+}
+	
+	\KwRet flags\;
+\end{algorithm}
 
 第二阶段，位置距离约束，上一阶段返回的匹配文档，会根据检索语句中的约束条件类型反馈不同的数据，比如约束条件中由词性约束，则在返回的数据中就会包含词性信息。在执行约束条件时，从文档开始位置，一次检查检索单元的匹配位置是否复合约束条件要求。由于每个文档可能有多个位置与检索单元匹配，因此通过动态规划算法，从起始检索单元依次检查其中的匹配位置是否复合匹过滤条件要求，直到所有检索单元全部满足要求，将这一项加入到候选列表中。
 
@@ -229,7 +274,7 @@ CQL具有良好的人类可读性，但如果使用CQL实现语料库的检索�
 
 \subsection{数据集}
 
-实验采用的数据集为《人民日报》图文数据库2014年-2015年的文本语料。使用结巴分词工具，对数据进行分词以及词性标注，然后通过本文创建的语料库搜索引擎，建立倒排索引表，生成语料数据库。然后编写有代表性的COL检索表达式，以及构造语义检索和自然语言检索的检索语句。将编写的COL检索式与CCL检索式作比较。并对三种检索形式的检索质量和检索速度。
+实验采用的数据集为《人民日报》图文数据库2014年-2015年的文本语料。在对数据进行分词以及词性标注后，通过本文创建的语料库搜索引擎，建立倒排索引表，生成语料数据库。然后编写典型的COL检索表达式，与CCL做对比测试。
 
 \subsection{检索式对比}
 
@@ -242,7 +287,7 @@ CCL语料库检索式设计十分完善。然而，对于初学者而言，其�
 		\begin{tabular}{|c|c|c|}
 			\hline \bf CCL检索式 & \bf CQL检索式 \\ \hline
 			计算机硬件 & [word='计算机硬件'] \\
-			把 \textbar 被 & [word='把' \textbar word='给'] \\
+			把 \textbar 被 & [word='把'  word='给'] \\
 			被+1把\$6给 & [word='被'][]\{1\}[word='把']\{0,6\}[word='给'] \\
 			与其\$[2-4]不如 & [word = '与其'][]\{2,4\}[word = '不如'] \\
 			
@@ -285,47 +330,14 @@ CCL的表达式，更为简洁，例如：查找同时含有“能力”和“�
 \section{结论}
 
 本文对语料库检索进行深入探索，采用CQL作为语言库检索语言，通过ANTLR工具将CQL语言解析问语法树，设计和构建了C++版本的语料库检索引擎，采用二阶段检索策略，以及候选标记位过滤方案，提升语料库的检索速度，实现表明本文设计的检索引擎高效准确。
-
+\cite{li2023can}
 综上所述，本文实现的面向CQL语言语料库检索引擎，为构建语料库检索提供了解决方案以及工程实践经验。
 
 
 % include your own bib file like this:
-%\bibliographystyle{ccl}
+\bibliographystyle{ccl}
 %\bibliography{ccl2022-zh}
-
-\begin{thebibliography}{}
-
-\bibitem[\protect\citename{Aho and Ullman}1972]{Aho:72}
-Alfred~V. Aho and Jeffrey~D. Ullman.
-\newblock 1972.
-\newblock {\em The Theory of Parsing, Translation and Compiling}, volume~1.
-\newblock Prentice-{Hall}, Englewood Cliffs, NJ.
-
-\bibitem[\protect\citename{{American Psychological Association}}1983]{APA:83}
-{American Psychological Association}.
-\newblock 1983.
-\newblock {\em Publications Manual}.
-\newblock American Psychological Association, Washington, DC.
-
-\bibitem[\protect\citename{{Association for Computing Machinery}}1983]{ACM:83}
-{Association for Computing Machinery}.
-\newblock 1983.
-\newblock {\em Computing Reviews}, 24(11):503--512.
-
-\bibitem[\protect\citename{Chandra \bgroup et al.\egroup }1981]{Chandra:81}
-Ashok~K. Chandra, Dexter~C. Kozen, and Larry~J. Stockmeyer.
-\newblock 1981.
-\newblock Alternation.
-\newblock {\em Journal of the Association for Computing Machinery},
-  28(1):114--133.
-
-\bibitem[\protect\citename{Gusfield}1997]{Gusfield:97}
-Dan Gusfield.
-\newblock 1997.
-\newblock {\em Algorithms on Strings, Trees and Sequences}.
-\newblock Cambridge University Press, Cambridge, UK.
-
-\end{thebibliography}
+\bibliography{custom}
 
 \end{CJK*}
 \end{document}
