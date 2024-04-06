@@ -1,0 +1,9 @@
+.$*
+*.aux
+*.out
+*.synctex.gz
+*.fls
+*.bbl
+*.blg
+*.pdf
+*.fdb_latexmk

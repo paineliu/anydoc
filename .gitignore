@@ -160,11 +160,3 @@ cython_debug/
 #.idea/
 
 data/
-.$*
-*.aux
-*.out
-*.synctex.gz
-*.fls
-*.bbl
-*.blg
-*.fdb_latexmk
