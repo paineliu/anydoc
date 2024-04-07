@@ -6,7 +6,6 @@
 %%
 
 \documentclass[11pt]{article}
-\usepackage{ctex}
 \usepackage[utf8]{inputenc}
 \usepackage[hyperref]{ccl2024-zh}
 \usepackage{url}
@@ -18,6 +17,7 @@
 
 \usepackage{latexsym}
 \usepackage{CJKutf8}
+
 \usepackage{indentfirst}
 \usepackage{fancyhdr}
 \usepackage{graphicx}
@@ -314,7 +314,7 @@ CCL的表达式，更为简洁，例如：查找同时含有“能力”和“�
 			文化\$2交流 & 2138 & 24.0 & [word = '文化'][]\{0,2\}[word = '交流'] & 1921 & 9.5 \\
 			把+1给 & 55 & 11.0 & [word='把'][]\{1,1\}[word='给'] & 24 & 8.7 \\
 			与其\$[2-4]不如 & 38 & 21.0 & [word = '与其'][word = '不如'] & 34 & 4.9 \\
-			(把\textbar被)\$[2-4]给 & 1010 & 19.0 & [word='把' \textbar word='被'][]\{2,4\}[word='给'] & 1004 & 43.4 \\
+			(把 \textbar 被)\$[2-4]给 & 1010 & 19.0 & [word='把'  \textbar word='被'][]\{2,4\}[word='给'] & 1004 & 43.4 \\
 			爱(X,1-3)不(X) & 13 & 10.0 & [word = '爱'][pos='v'][word = '不'][pos='v'] & 12 & 8.3 \\
 			宁可\$10也 & 140 & 10.0 & [word = '宁可'][]\{\}[word = '也'] & 137 & 6.4 \\
 			澡\$4洗 & 24 & 10.0 & [word = '澡'][ word = '洗'] & 19 & 5.3 \\
