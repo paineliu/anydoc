@@ -1,2 +1,3 @@
-SELECT TOP 10 doc_id, pass_id, sen_id, content FROM sen WHERE content LIKE '北京 天气';
-SELECT TOP 10 doc_id, pass_id, sen_id, content FROM sen WHERE content LIKE '中国 台湾';
+SELECT TOP 20 * FROM sen WHERE content LIKE '我们';
+SELECT TOP 20 * FROM sen WHERE content LIKE '拭目以待';
+

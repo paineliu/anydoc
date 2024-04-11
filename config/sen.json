@@ -20,6 +20,10 @@
       "sen_id"
     ],
 
+    "affix": [
+      "content"
+    ],
+
     "bm25": [
       "content"
     ]

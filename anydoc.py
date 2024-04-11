@@ -140,27 +140,34 @@ class JSSCql:
 if __name__ == '__main__':
 
     cql_statements = [
-        "[word = '克服一切困难']",
-        "[word = '好的'][word = '不好的']",
-        "[word = '文化'][word = '交流']",
-        "[word = '把'][word = '给']",
-        "[word = '与其'][word = '不如']",
+        # "[word = '克服一切困难']",
+        # "[word = '好的'][word = '不好的']",
+        # "[word = '文化'][word = '交流']",
+        # "[word = '把'][word = '给']",
+        # "[word = '与其'][word = '不如']",
         "[word = '把'|word='被'][word = '给']",
-        "[word = '爱'][word = '不']",
-        "[word = '宁可'|word = '也']",
-        "[word = '洗'][word = '澡']",
-        ]
-
+        # "[word = '爱'][word = '不']",
+        # "[word = '宁可'|word = '也']",
+        # "[word = '洗'][word = '澡']",
+        # "[word = '克服一切困难']",
+        # "[word = '克服'][word='一切困难']",
+        "[word = '把' | word = '被'][]{0,4}[word='变成']",
+        "[word = '我们'",
+        "[word = '拆分'",
+        "[word = '文档'",
+        "[word = '拭目以待']",
+                ]
+    f = open('./test_cql.txt', encoding='utf_8')
     jssCql = JSSCql('./data/table/table.lst')
-
-    for statement in cql_statements:
+    for each in f:
+        statement = each.strip()
         print("cql statement = {}".format(statement))
         result = jssCql.cql_search(statement)
         print("result = {}".format(len(result)))
         total = 0
         for i, item in enumerate(result):
-
             print(i, item, result[item])
-            break
+            if i > 20:
+                break
             
         print()

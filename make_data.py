@@ -115,15 +115,18 @@ def test_table(table_lst_filename, test_filename):
         with open(test_filename, "r", encoding='utf-8') as file:
             sql_list = file.read().splitlines()
     else:
-        sql_list = ["SELECT TOP 10 doc_id, pass_id, sen_id, content FROM sen WHERE content LIKE '北京 台湾';"]
+        sql_list = ["SELECT TOP 20 doc_id, pass_id, sen_id, content FROM sen WHERE content LIKE '我们';"]
         
     jss = jsslib.JSS(1)
     jss.LoadTable(table_lst_filename)
     for sql in sql_list:
         sql = sql.strip()
         print(sql)
-        print(jss.RunSql(sql))
-        print()
+        start = time.time()
+        result = jss.RunSql(sql)
+        end = time.time()
+        print('cost =', end-start)
+        print(result)
 
 def create_text_index(config_pathname, text_pathname, data_pathname, table_pathname, test_filename=''):
     make_data(text_pathname, data_pathname)

@@ -1,0 +1,1 @@
+ java -Xmx4g -cp ".\tools\stanford-corenlp-4.5.6\*"  edu.stanford.nlp.pipeline.StanfordCoreNLP -props StanfordCoreNLP-chinese.properties -annotators tokenize,ssplit,pos,lemma,ner -file ./data/rmrb_text_2015 -outputDirectory ./data/rmrb_conllu_2015 -outputFormat conllu
