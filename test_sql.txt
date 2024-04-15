@@ -1,3 +1,5 @@
-SELECT TOP 20 * FROM sen WHERE content LIKE '一个';
-SELECT TOP 20 * FROM sen WHERE content LIKE '拭目以待';
-
+SELECT TOP 3 id, filename, sentence FROM rmrb WHERE seg = '天地一片' and seg='一轮野月';
+SELECT TOP 3 id, filename, sentence FROM rmrb WHERE seg like '天地一片' and seg='一轮野月';
+SELECT TOP 20 id, filename, sentence FROM rmrb WHERE pos = 'NN';
+SELECT TOP 20 id, filename, sentence FROM rmrb WHERE seg = '一个' and seg = '周期';
+SELECT TOP 20 id, filename, sentence FROM rmrb WHERE seg like '一个';

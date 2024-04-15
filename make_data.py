@@ -85,37 +85,14 @@ def make_data(text_pathname, data_pathname):
             doc_id += 1
 
 def make_table(json_pathname, config_pathname, output_pathname):
-    jss = jsslib.JSS(1)
-
-    json_filename = os.path.join(json_pathname, "doc.jsonl")
-    config_filename = os.path.join(config_pathname, "doc.json")
-    table_pathname =  os.path.join(output_pathname, "doc")
-    jss.CreateTable(config_filename, json_filename, table_pathname)
-
-    json_filename = os.path.join(json_pathname, "pass.jsonl")
-    config_filename = os.path.join(config_pathname, "pass.json")
-    table_pathname =  os.path.join(output_pathname, "pass")
-    jss.CreateTable(config_filename, json_filename, table_pathname)
-
-    json_filename = os.path.join(json_pathname, "sen.jsonl")
-    config_filename = os.path.join(config_pathname, "sen.json")
-    table_pathname =  os.path.join(output_pathname, "sen")
-    jss.CreateTable(config_filename, json_filename, table_pathname)
-
-    lst_filename =  os.path.join(output_pathname, "table.lst")
-
-    f = open(lst_filename, 'w', encoding='utf-8')
-    f.write('doc\n')
-    f.write('pass\n')
-    f.write('sen\n')
-    f.close()
+    pass
 
 def test_table(table_lst_filename, test_filename):
     if (os.path.isfile(test_filename)):
         with open(test_filename, "r", encoding='utf-8') as file:
             sql_list = file.read().splitlines()
     else:
-        sql_list = ["SELECT TOP 20 doc_id, pass_id, sen_id, content FROM sen WHERE content LIKE '我们';"]
+        sql_list = ["SELECT TOP 20 *, content FROM rmrb WHERE seg LIKE '我们';"]
         
     jss = jsslib.JSS(1)
     jss.LoadTable(table_lst_filename)
@@ -129,10 +106,14 @@ def test_table(table_lst_filename, test_filename):
         print(result)
 
 def create_text_index(config_pathname, text_pathname, data_pathname, table_pathname, test_filename=''):
-    make_data(text_pathname, data_pathname)
-    make_table(data_pathname, config_pathname, table_pathname)
-    lst_filename = os.path.join(table_pathname, 'table.lst')
-    test_table(lst_filename, test_filename)
+    # make_data(text_pathname, data_pathname)
+    # jss = jsslib.JSS(1)
+    # jss.CreateTable('./config/rmrb.json', './data/rmrb-json-stanford', './data/rmrb-table-stanford')
+    # jss.CreateTable('./config/rmrb.json', './data/rmrb-json-thulac', './data/rmrb-table-thulac')
+
+    # make_table(data_pathname, config_pathname, table_pathname)
+    # lst_filename = os.path.join(table_pathname, 'table.lst')
+    test_table('./data/rmrb-table-stanford', test_filename)
 
 if __name__ == '__main__':
 

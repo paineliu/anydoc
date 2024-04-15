@@ -13,14 +13,17 @@ class JSSCql:
 
     def search_jss(self, word):
 
-        start = time.time()
-        lst_result = self.jss.RunSql("SELECT TOP 200 * FROM sen WHERE content LIKE '{}';".format(word))
-        end = time.time()
-        print(end - start)
+        # start = time.time()
+        lst_result = self.jss.RunSql("SELECT TOP 1 * FROM rmrb WHERE seg like '{}';".format(word))
+        # lst_result = self.jss.RunSql("SELECT TOP 20 * FROM rmrb WHERE pos = '{}';".format('n'))
+        # end = time.time()
+        # print(end - start)
         map_result = {}
-        for item in lst_result:
-            id ='{}-{}-{}'.format(item['doc_id'], item['pass_id'], item['sen_id'])
-            map_result[id] = item['content']
+        map_result['total'] = lst_result['total']
+        map_result['data'] = {}
+        # for item in lst_result['results']:
+        #     id ='{}'.format(item['id'])
+        #     map_result['data'][id] = item['sentence']
         return map_result
 
     def search_exp(self, node):
@@ -33,7 +36,11 @@ class JSSCql:
         elif type == 'or':
             result1 = self.search_exp(node.get('exp_node1', None))
             result2 = self.search_exp(node.get('exp_node2', None))
-            return result1 | result2
+            result_or = {}
+            result_or['data'] = result1['data']
+            for item in result2['data']:
+                result_or['data'][item] = result2['data'][item]
+            return {'total': result1['total'] + result2['total'], 'data':result1['data'] | result2['data']}
         else:
             if 'exp_node1' in node:
                 word = node['exp_node1']['value'].replace("'", "")
@@ -84,28 +91,40 @@ class JSSCql:
             for node in map_tree:
                 self.get_search_string(node, word_lst)
             result_lst = self.search_jss(' '.join(word_lst))
-            out_lst = {}
-            for item in result_lst:
-                begin_pos = -1
-                valid_item = True
-                for word in word_lst:
-                    find_pos = result_lst[item].find(word)
-                    if (begin_pos != -1 and find_pos - begin_pos > 6):
-                        valid_item = False
-                        break
+            if len(word_lst) > 0:
+                out_lst = {}
+                for item in result_lst['data']:
+                    begin_pos = -1
+                    valid_item = True
+                    if len(word_lst) > 1:
+                        if word_lst[0] != word_lst[1]:
+                            for word in word_lst:
+                                find_pos = result_lst['data'][item].find(word)
+                                if (begin_pos != -1 and find_pos - begin_pos < 0):
+                                    valid_item = False
+                                    break
 
-                    if (find_pos <= begin_pos):
-                        valid_item = False
-                        break
+                                if (find_pos <= begin_pos):
+                                    valid_item = False
+                                    break
+                                else:
+                                    begin_pos = find_pos
+                        else:
+                            word = word_lst[0]
+                            find_pos = result_lst['data'][item].find(word)
+                            r_find_pos  = result_lst['data'][item].rfind(word)
+
+                            valid_item = find_pos != r_find_pos
                     else:
-                        begin_pos = find_pos
+                        word = word_lst[0]
+                        find_pos = result_lst['data'][item].find(word)
+                        valid_item = find_pos != -1
+                    if valid_item:
+                        out_lst[item] = result_lst['data'][item]
 
-                if valid_item:
-                    out_lst[item] = result_lst[item]
-
-            return out_lst
+                return result_lst['total'], out_lst
         
-        return {}
+        return 0, {}
 
     def cql_search(self, cql_statement):
 
@@ -126,10 +145,11 @@ class JSSCql:
         if self.is_or_tree(search_tree.map_tree):  
             for node in search_tree.map_tree:
                 result = self.search_exp(node)
-                lst_result_id.append(result)
+                lst_result_id.append(result['data'])
             result = lst_result_id[0]
             for i in range(1, len(lst_result_id)):
                 result = {k1:result[k1] for k1 in result if k1 in lst_result_id[i]}
+            return 0, result
         else:
             result = self.search_fast(search_tree.map_tree)
         
@@ -139,35 +159,37 @@ class JSSCql:
 
 if __name__ == '__main__':
 
-    cql_statements = [
-        # "[word = '克服一切困难']",
-        # "[word = '好的'][word = '不好的']",
-        # "[word = '文化'][word = '交流']",
-        # "[word = '把'][word = '给']",
-        # "[word = '与其'][word = '不如']",
-        "[word = '把'|word='被'][word = '给']",
-        # "[word = '爱'][word = '不']",
-        # "[word = '宁可'|word = '也']",
-        # "[word = '洗'][word = '澡']",
-        # "[word = '克服一切困难']",
-        # "[word = '克服'][word='一切困难']",
-        "[word = '把' | word = '被'][]{0,4}[word='变成']",
-        "[word = '我们'",
-        "[word = '拆分'",
-        "[word = '文档'",
-        "[word = '拭目以待']",
-                ]
+    # cql_statements = [
+    #     # "[word = '克服一切困难']",
+    #     # "[word = '好的'][word = '不好的']",
+    #     # "[word = '文化'][word = '交流']",
+    #     # "[word = '把'][word = '给']",
+    #     # "[word = '与其'][word = '不如']",
+    #     "[word = '把'|word='被'][word = '给']",
+    #     # "[word = '爱'][word = '不']",
+    #     # "[word = '宁可'|word = '也']",
+    #     # "[word = '洗'][word = '澡']",
+    #     # "[word = '克服一切困难']",
+    #     # "[word = '克服'][word='一切困难']",
+    #     "[word = '把' | word = '被'][]{0,4}[word='变成']",
+    #     "[word = '我们'",
+    #     "[word = '拆分'",
+    #     "[word = '文档'",
+    #     "[word = '拭目以待']",
+    #             ]
     f = open('./test_cql.txt', encoding='utf_8')
-    jssCql = JSSCql('./data/table/table.lst')
+    f_out = open('./test_cql_anydoc.txt', mode='w', encoding='utf_8')
+    jssCql = JSSCql('./data/rmrb-table-stanford')
     for each in f:
         statement = each.strip()
-        print("cql statement = {}".format(statement))
-        result = jssCql.cql_search(statement)
-        print("result = {}".format(len(result)))
-        total = 0
-        for i, item in enumerate(result):
-            print(i, item, result[item])
-            if i > 20:
-                break
+        if len(statement) > 0:
+            statement = statement.replace('[]', '')
+            for i in range(12):
+                start = time.time()
+                total, result = jssCql.cql_search(statement)
+                cost = time.time() - start
+                map_result = {}
+                out_str = "{}\t{}\t{}\n".format(statement, int(cost * 1000), total)
+                f_out.write(out_str)
+                print(out_str, end='')
             
-        print()

@@ -12,7 +12,7 @@ def conllu_file_to_json_file(fullname, f_doc_json):
 
     for each in f:
         items = each.strip().split('\t')
-        if len(items) != 10:
+        if len(items) < 9:
             # if len(sent_list) != 0:
             #     print(sent_list)
             out_data = {}
@@ -61,3 +61,4 @@ def conv_to_jsonl(data_pathname, jsonl_filename):
     print("finished.")
 
 conv_to_jsonl('./data/rmrb-conllu-stanford', './data/rmrb-json-stanford/rmrb.jsonl')
+conv_to_jsonl('./data/rmrb-conllu-thulac', './data/rmrb-json-thulac/rmrb.jsonl')

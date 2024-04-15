@@ -1,16 +1,18 @@
-import os
-import json
+# import os
+# import json
 import re
 from segtool import SegTool
+import multiprocessing
+from multiprocessing import freeze_support
+import os, time, random
+
+# import time
+# from multiprocessing import Process, Queue, freeze_support
+
+# # import queue
+# # import threading
 
 
-import queue
-import threading
- 
-
-
-g_pos = set()
-g_doc_line_total = 0
 
 def passage_to_sentences(passage):
     sentences = re.split(r"([.。!！?？\s+])", passage)
@@ -24,10 +26,17 @@ def conllu_txt_to_conllu_file(txt_filename, conllu_filename):
     os.makedirs(os.path.dirname(conllu_filename), exist_ok=True)
     f = open(txt_filename, encoding='utf_8')
     f_c = open(conllu_filename, mode='w', encoding='utf_8')
-
+    start_time = time.time()
+    begin_time = time.time()
+    line_total = 0
     for each in f:
         passage = each.strip()
         sentences = passage_to_sentences(passage)
+        line_total += 1
+        end_time = time.time()
+        if (end_time - begin_time > 6):
+            begin_time = end_time
+            print(txt_filename, line_total)
         for sentence in sentences:
             if len(sentence) > 0:
                 tokens = segTool.thulac_pos_tag(sentence)
@@ -38,39 +47,44 @@ def conllu_txt_to_conllu_file(txt_filename, conllu_filename):
                     f_c.write('\n')
                     
  
-
 def conv_to_conllu(data_pathname, conllu_pathname):
-    # 创建一个队列对象，把数组值放进去
-    q = queue.Queue()
-    
-    # 定义实际操作
-    def do_something(map_param):
-        conllu_txt_to_conllu_file(map_param['inFile'], map_param['outFile'])
-    
-    # 从队列中取出值，并调用实际操作
-    def f(queue):
-        while not queue.empty():
-            i = queue.get()
-            do_something(i)
-    
-    # 起10个线程，线程target去执行从队列中取值并进行操作的动作
-    
+    lst_file = []
     for parent, dirs, files in os.walk(data_pathname):
         for filename in files:
             fullname = os.path.join(parent, filename)
             out_pathname = conllu_pathname + fullname[len(data_pathname):]
             if filename.endswith('.txt'):
                 map_param = { 'inFile':fullname, 'outFile':out_pathname}
-                q.put(map_param)
+                lst_file.append(map_param)
+    return lst_file
 
-    threads = []
-    for t in range(10):
-        thread = threading.Thread(target=f, args=(q,))
-        threads.append(thread)
-        thread.start()
     
-    for t in threads:
-        t.join()
-    print("finished.")
 
-conv_to_conllu('./data/rmrb-text', './data/rmrb-conllu-thulac')
+
+def work(inFile, outFile):
+    t_start = time.time()
+    print("pid = %d" % os.getpid())
+    conllu_txt_to_conllu_file(inFile, outFile)
+    t_end = time.time()
+
+    print("耗时%06.2f" % (t_end-t_start))
+
+
+
+
+def main():
+    po = multiprocessing.Pool(processes=12)
+    print("main start")
+    print(po)
+    lst_file = conv_to_conllu('./data/rmrb-text', './data/rmrb-conllu-thulac')
+    for i in lst_file:
+        po.apply_async(work,args=(i['inFile'], i['outFile']))
+
+    po.close()
+    po.join()
+
+    print("main end")
+
+if __name__ == '__main__':
+    freeze_support()
+    main()

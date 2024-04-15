@@ -1,0 +1,31 @@
+{
+	"table_name": "rmrb",
+	"record_format": "segpos",
+
+  "contect": {
+    "id": "id",
+    "filename": "filename",
+    "sentence": "sentence",
+    "seg": "seg",
+    "pos": "pos",
+    "segpos": "segpos"
+  },
+
+  "index": {
+    "kv": [
+      "pos"
+    ],
+
+    "number": [
+      "id"
+    ],
+
+    "affix": [
+      "seg"
+    ],
+
+    "bm25": [
+      "seg"
+    ]
+  }
+}

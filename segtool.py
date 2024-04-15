@@ -4,15 +4,26 @@ from stanfordcorenlp import StanfordCoreNLP
 import pynlpir
 import json
 import thulac
+import deepthulac
 import logging
 from ltp import LTP
 # https://blog.csdn.net/shuihupo/article/details/81540433
 
+from deepthulac import LacModel, SEG_MODEL
+
+
+
 class SegTool():
     def __init__(self):
+        self.thul = thulac.thulac(seg_only=True, model_path='./tools/Models_v1_v2/models')  # 默认模式
+
+        # text = self.thul.cut(sentence, text=True)  # 进行一句话分词
+
+        self.lac = LacModel.load(path='./tools/deepthulac-seg-model') # 加载模型，path为模型文件夹路径，SEG_MODEL表示自动从huggingface下载，device设置为cuda/cpu/mps
+
         self.stanford_nlp =  StanfordCoreNLP('./tools/stanford-corenlp-4.5.6', lang='zh')
-        self.ltp_nlp = LTP('tools/LTP/small')  # 默认加载 Small 模型
-        self.thul = thulac.thulac()  # 默认模式
+        self.ltp_nlp = LTP('./tools/LTP/small')  # 默认加载 Small 模型
+        
         jieba.setLogLevel(log_level=logging.ERROR)
         
 
@@ -49,13 +60,20 @@ class SegTool():
 
     def thulac_pos_tag(self, sentence):
         tokens = []
-        text = self.thul.cut(sentence, text=True)  # 进行一句话分词
-        wp = text.split(' ')
-        for t in wp:
-            item = t.split('_')
-            word = item[0]
-            pos = item[1]
-            tokens.append((word, pos))
+        # 句子分词
+        sents = [sentence]
+        results = self.lac.seg(sents, show_progress_bar=False)
+        results = results['seg']['res']
+        for item in results[0]:
+            tokens.append((item, ''))
+        # print(results)
+        # text = self.thul.cut(sentence, text=True)  # 进行一句话分词
+        # wp = text.split(' ')
+        # for t in wp:
+        #     item = t.split('_')
+        #     word = item[0]
+        #     pos = item[1]
+        #     tokens.append((word, pos))
         return tokens
 
     def ltp_pos_tag(self, sentence):
@@ -86,10 +104,10 @@ class SegTool():
         jieba = seg
         sentance_map['jieba'] = seg
 
-        seg = self.get_sentence(self.nlpir_pos_tag(sentance))
-        sentance_map[seg] = sentance_map.get(seg, 0) + 1
-        nlpir = seg
-        sentance_map['nlpir'] = seg
+        # seg = self.get_sentence(self.nlpir_pos_tag(sentance))
+        # sentance_map[seg] = sentance_map.get(seg, 0) + 1
+        # nlpir = seg
+        # sentance_map['nlpir'] = seg
 
         seg = self.get_sentence(self.thulac_pos_tag(sentance))
         sentance_map[seg] = sentance_map.get(seg, 0) + 1
@@ -101,7 +119,7 @@ class SegTool():
         ltp = seg
         sentance_map['ltp'] = seg
 
-        if sentance_map[thulac] > 2 and sentance_map[stanford] == 1:
+        if sentance_map['jieba'] != sentance_map['thulac'] and sentance_map[thulac] >= 1 and sentance_map[stanford] == 1:
             return 0, sentance_map
         elif len(sentance_map) == 1:
             return 1, sentance_map
@@ -116,7 +134,7 @@ if __name__ == '__main__':
     line_ambig = 0
     line_error = 0
     f_log = open('./data/stanford_thulac_diff.csv', mode='w', encoding='utf_8_sig')
-    f_log.write('{},{},{},{}\n'.format('句子','长度','斯坦福','清华'))
+    f_log.write('{},{},{},{},{}\n'.format('句子','长度','jieba','斯坦福','清华'))
     f = open ('./data/rmrb-json-stanford/rmrb.jsonl', encoding='utf_8')
     for each in f:
         jdata = json.loads(each)
@@ -127,13 +145,13 @@ if __name__ == '__main__':
                 line_error += 1
                 line_total += 1
                 # print(ret, line_right / line_total, line_right, line_total, sentance_map)
-                print(line_error, sentance, 'stanford', sentance_map['stanford'], '清华', sentance_map['thulac'])
-                f_log.write('{},{},{},{}\n'.format(sentance,len(sentance),sentance_map['stanford'],sentance_map['thulac']))
+                print(line_error, sentance, 'jieba', sentance_map['jieba'], 'stanford', sentance_map['stanford'], '清华', sentance_map['thulac'])
+                f_log.write('{},{},{},{},{}\n'.format(sentance,len(sentance),sentance_map['jieba'],sentance_map['stanford'],sentance_map['thulac']))
             elif ret == 1:
                 line_right += 1
                 line_total += 1
                 # print(ret, line_right / line_total, line_right, line_total, sentance_map)
-            if line_error > 100:
+            if line_error > 1000:
                 break
             
 # def test_seg_pos(sentence):
