@@ -27,7 +27,7 @@ class SegTool():
         jieba.setLogLevel(log_level=logging.ERROR)
         
 
-    def stanford_pos_tag(self, sentence):
+    def stanford_pos_tag(self, sentence, pos=True):
         def get_pos_tag(nlp, sentence):
             tokens = []
             props={'annotators': 'tokenize, pos','pipelineLanguage':'zh','outputFormat':'json'}
@@ -35,7 +35,10 @@ class SegTool():
             text_data = json.loads(text_string)
 
             for text in text_data['sentences'][0]['tokens']:
-                tokens.append((text['word'], text['pos']))
+                if pos:
+                    tokens.append((text['word'], text['pos']))
+                else:
+                    tokens.append(text['word'])
 
             return tokens
 
@@ -45,11 +48,15 @@ class SegTool():
         pos_tagged = get_pos_tag(self.stanford_nlp, sentence)
         return pos_tagged
     
-    def jieba_pos_tag(self, sentence):
+    def jieba_pos_tag(self, sentence, pos=True):
         tokens = []
         words =jieba.posseg.cut(sentence)
         for w in words:
-            tokens.append((w.word, w.flag))
+            if pos:
+                tokens.append((w.word, w.flag))
+            else:
+                tokens.append(w.word)
+            
         return tokens
 
     def nlpir_pos_tag(self, sentence):
@@ -58,14 +65,17 @@ class SegTool():
         pynlpir.close()
         return tokens
 
-    def thulac_pos_tag(self, sentence):
+    def thulac_pos_tag(self, sentence, pos = True):
         tokens = []
         # 句子分词
         sents = [sentence]
         results = self.lac.seg(sents, show_progress_bar=False)
         results = results['seg']['res']
         for item in results[0]:
-            tokens.append((item, ''))
+            if pos:
+                tokens.append((item, ''))
+            else:
+                tokens.append(item)
         # print(results)
         # text = self.thul.cut(sentence, text=True)  # 进行一句话分词
         # wp = text.split(' ')
@@ -91,7 +101,7 @@ class SegTool():
             sentence += each[0] + ' '
         return sentence
     
-    def check_stanford_diff(self, sentance):
+    def check_jieba(self, sentance):
         sentance_map = {}
         
         seg = self.get_sentence(self.stanford_pos_tag(sentance))
@@ -119,12 +129,7 @@ class SegTool():
         ltp = seg
         sentance_map['ltp'] = seg
 
-        if sentance_map['jieba'] != sentance_map['thulac'] and sentance_map[thulac] >= 1 and sentance_map[stanford] == 1:
-            return 0, sentance_map
-        elif len(sentance_map) == 1:
-            return 1, sentance_map
-        else:
-            return -1, sentance_map
+        return sentance_map[jieba] > 1
 
 if __name__ == '__main__':
 
